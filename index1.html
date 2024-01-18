@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Dynamic Login Page</title>
+  <style>
+    body {
+      color: #fff;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #007bff, #ff5f5f);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      animation: backgroundAnimation 10s infinite alternate;
+    }
+
+    @keyframes backgroundAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(51, 51, 51, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      animation: slideIn 1s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .google-login-btn {
+      background-color: #4285f4;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .success-animation {
+      animation: success 0.8s ease;
+    }
+
+    @keyframes success {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <!-- Include the Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+</head>
+
+<body>
+  <div id="particles-js"></div>
+  <div class="container">
+    <h2>Login</h2>
+    <button class="google-login-btn" onclick="googleSignIn()">Sign In with Google</button>
+  </div>
+
+  <script>
+    // Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdFcZqBSzWiymFppFY5EDxmfwCTcuECEI",
+      authDomain: "gdsc-a95d6.firebaseapp.com",
+      projectId: "gdsc-a95d6",
+      storageBucket: "gdsc-a95d6.appspot.com",
+      messagingSenderId: "610142383351",
+      appId: "1:610142383351:web:532bf288c70f420da077f2",
+      measurementId: "G-TBKNC6LDDH"
+
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    function googleSignIn() {
+      // Perform Firebase Google Sign-In
+      auth.signInWithPopup(provider)
+        .then(result => {
+          // Handle successful login
+          console.log(result);
+
+          // For this example, add a success animation when the Google sign-in button is clicked
+          var googleBtn = document.querySelector(".google-login-btn");
+          googleBtn.classList.add("success-animation");
+
+          // Display an alert with the user's information after a short delay
+          setTimeout(function () {
+            alert("Signed in with Google!\nUser ID: " + result.user.uid + "\nDisplay Name: " + result.user.displayName);
+
+            // Remove the success animation class
+            googleBtn.classList.remove("success-animation");
+          }, 1000);
+        })
+        .catch(error => {
+          // Handle login error
+          console.error(error);
+        });
+    }
+
+    particlesJS("particles-js", {
+      particles: {
+        number: {
+          value: 80,
+          density: {
+            enable: true,
+            value_area: 800,
+          },
+        },
+        color: {
+          value: "#ffffff",
+        },
+        shape: {
+          type: "circle",
+          stroke: {
+            width: 0,
+            color: "#000000",
+          },
+          polygon: {
+            nb_sides: 5,
+          },
+          image: {
+            src: "img/github.svg",
+            width: 100,
+            height: 100,
+          },
+        },
+        opacity: {
+          value: 0.5,
+          random: false,
+          anim: {
+            enable: false,
+            speed: 1,
+            opacity_min: 0.1,
+            sync: false,
+          },
+        },
+        size: {
+          value: 3,
+          random: true,
+          anim: {
+            enable: false,
+            speed: 40,
+            size_min: 0.1,
+            sync: false,
+          },
+        },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#ffffff",
+          opacity: 0.4,
+          width: 1,
+        },
+        move: {
+          enable: true,
+          speed: 6,
+          direction: "none",
+          random: false,
+          straight: false,
+          out_mode: "out",
+          bounce: false,
+          attract: {
+            enable: false,
+            rotateX: 600,
+            rotateY: 1200,
+          },
+        },
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: {
+            enable: true,
+            mode: "repulse",
+          },
+          onclick: {
+            enable: true,
+            mode: "push",
+          },
+          resize: true,
+        },
+        modes: {
+          grab: {
+            distance: 400,
+            line_linked: {
+              opacity: 1,
+            },
+          },
+          bubble: {
+            distance: 400,
+            size: 40,
+            duration: 2,
+            opacity: 8,
+            speed: 3,
+          },
+          repulse: {
+            distance: 200,
+            duration: 0.4,
+          },
+          push: {
+            particles_nb: 4,
+          },
+          remove: {
+            particles_nb: 2,
+          },
+        },
+      },
+      retina_detect: true,
+    });
+
+  </script>
+</body>
+
+</html>
